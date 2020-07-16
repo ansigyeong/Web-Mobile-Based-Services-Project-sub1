@@ -102,3 +102,56 @@
 
 
 
+## 0716
+
+### 1. 오늘 한 일
+
+< DB >
+
+- user
+  uid, name, email, pw, grade, follow, follower , lang, private(int)
+  -다 string
+
+- follwo_user
+  follow_id , follower_id
+
+- qna
+  qna_num(int), contents, qna_like(int), rp_cnt(int), create_date(date) , (uid-fk) 
+
+- qna_rp
+  rp_num(int), contents, rp_like(int), create_date(date), (qna_num, uid-fk) 
+
+
+
+< 페이지 상세 기능 >
+1. main
+
+   - 언어별 검색기능
+
+
+
+2. account
+
+    - 팔로우/팔로잉
+    - 내질문/ 답변보기(페이징)
+    - 찜한 글
+
+
+
+3. community
+
+    - 검색창에서 검색 후 페이지 : 키워드 관련 질문을 최신순으로 조회
+    - 메뉴에서 해당 언어 선택시 관련된 모든 질문 최신순으로 조회
+    => 좋아요순, 답글순으로 페이지 정렬추가, askquestion 기능+ (선택 : 해시태그 - 기본기능완성 후 추가할 계획)
+    -메인페이지 : create askquestion 
+    - qna 상세페이지 : 상세 내용 조회, bookmark(찜하기) 기능 , 질문과 답글 좋아요 기능, 답글달기 기능 , (update, delete question) , (update ,delete ,create reply) 
+    - 명예의 전당 페이지 : 등급 순으로 랭킹 정렬 + (선택 : 승급 시 필요한 likes수 기능 ) 
+    - 회원프로필 페이지 :  팔로우and팔로잉 수 나타내기(클릭시 목록 조회), 회원정보 조회 , user가 쓴 질문&답글 최신순 조회, bookmark목록 조회
+    - 로그인 페이지 : sns로그인, security인증 후 로그인, 비밀번호 변경
+    - 회원가입 페이지 : id, 별명 중복 확인, email인증
+    - askquestion 페이지 : create ask
+    - 코드실행기(추가구현)
+
+
+
+*추가 화면설계도 : 회원 정보에서 팔로우,팔로잉 클릭시 팔로우,팔로잉 목록 페이지, 회원정보 수정페이지
