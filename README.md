@@ -95,7 +95,7 @@
 
  
 
-### 3. 내일 할 것
+### 3. 다음에 할 일
 
 - javascript 공부
 - vue.js 공부
@@ -154,7 +154,7 @@
 
 
 
-### 2. 내일 할 일
+### 2. 다음에 할 일
 
 - 추가 화면설계도
   - 회원 정보에서 팔로우,팔로잉 클릭시 팔로우,팔로잉 
@@ -189,7 +189,7 @@
 
 
 
-### 2. 내일 할 일
+### 2. 다음에 할 일
 
 - 피드백 받기
 - vue template 적용하기
@@ -209,7 +209,7 @@
 
 
 
-### 2. 내일 할 일
+### 2. 다음에 할 일
 
 - 스토리보드 보완하기
 - ERD 수정하기
@@ -220,8 +220,54 @@
 ## 0722
 ### 1.  오늘 한 일
 
-vue template 적용하고 스토리 보드를 수정했는데 퇴실시간이 다 되었다.
+- Vue template 적용
 
-### 2. 내일 할 일
+- 스토리보드 수정 - detail, bookmark, my record, profile, the hall of fame
 
-Vue !!!
+### 2. 다음에 할 일
+
+- main page
+- sign up page
+- sign in page
+
+
+
+## 0723
+
+### 1. 오늘 한 일
+
+- 스토리 보드 - main, ask question, index
+
+### 2. 다음에 할 일
+
+- main page
+- sign up page
+- sign in page
+
+
+
+## 0724
+
+### 1. 오늘 한 일
+
+- vue template 안 쓰고 부트스트랩 쓰기로 해서 템플릿 적용된 거 지움
+- main page, sign up page, sign in page 
+  - main page
+    - header
+    - 로고 이미지 
+    - 검색창
+  - sign up page
+  - sign in page
+
+### 2. 다음에 할 일
+
+- main page
+  - 로고 이미지 반응형으로 만들기
+  - 검색창 테두리 안 나오는 거 해결하기
+- sign up page
+  - 헤더
+  - 버튼 primary 적용
+- sign in page
+  - 헤더
+  - 버튼 primary 적용
+- 다른 페이지 생성하기
