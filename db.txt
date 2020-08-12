@@ -2,20 +2,20 @@
 -- Table `user`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `user` (
- `userNo` INT NOT NULL AUTO_INCREMENT,
- `name` VARCHAR(50) NOT NULL,
- `email` VARCHAR(100) NOT NULL,
- `pw` VARCHAR(100) NOT NULL,
- `lang` VARCHAR(50) NOT NULL,
- `grade` INT NULL DEFAULT '0',
- `enable` INT NULL DEFAULT '1',
- `totalLike` INT NULL DEFAULT '0',
- `role` VARCHAR(50) NOT NULL DEFAULT 'ROLE_USER',
- `authKey` VARCHAR(50) NOT NULL,
- `authStatus` INT NOT NULL DEFAULT 0,
- `createDate` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
- PRIMARY KEY (`userNo`),
- UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
+  `userNo` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(100) NOT NULL,
+  `pw` VARCHAR(100) NOT NULL,
+  `lang` VARCHAR(50),
+  `grade` INT NULL DEFAULT '0',
+  `enable` INT NULL DEFAULT '1',
+  `totalLike` INT NULL DEFAULT '0',
+  `role` VARCHAR(50) NOT NULL DEFAULT 'ROLE_USER',
+  `authKey` VARCHAR(50) NOT NULL,
+  `authStatus` INT NOT NULL DEFAULT 0,
+  `createDate` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`userNo`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -24,17 +24,19 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `question`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `question` (
- `queNo` INT NOT NULL AUTO_INCREMENT,
- `lang` VARCHAR(50) NOT NULL,
- `title` VARCHAR(200) NOT NULL,
- `contents` VARCHAR(2000) NOT NULL,
- `createDate` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
- `userNo` INT NOT NULL,
- PRIMARY KEY (`queNo`),
- INDEX `uid_idx` (`userNo` ASC) VISIBLE,
- CONSTRAINT `id`
-   FOREIGN KEY (`userNo`)
-   REFERENCES `user` (`userNo`))
+  `queNo` INT NOT NULL AUTO_INCREMENT,
+  `lang` VARCHAR(50) NOT NULL,
+  `title` VARCHAR(200) NOT NULL,
+  `contents` VARCHAR(2000) NOT NULL,
+  `createDate` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `userNo` INT NOT NULL,
+  PRIMARY KEY (`queNo`),
+  INDEX `uid_idx` (`userNo` ASC) VISIBLE,
+  CONSTRAINT `id`
+    FOREIGN KEY (`userNo`)
+    REFERENCES `user` (`userNo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -43,21 +45,25 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `reply`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `reply` (
- `rpNo` INT NOT NULL AUTO_INCREMENT,
- `contents` VARCHAR(2000) NOT NULL,
- `rpLike` INT NOT NULL DEFAULT '0',
- `createDate` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
- `queNo` INT NOT NULL,
- `userNo` INT NOT NULL,
- PRIMARY KEY (`rpNo`),
- INDEX `que_no_idx` (`queNo` ASC) VISIBLE,
- INDEX `uid_idx` (`userNo` ASC) VISIBLE,
- CONSTRAINT `reply_user_no_fk`
-   FOREIGN KEY (`userNo`)
-   REFERENCES `user` (`userNo`),
- CONSTRAINT `reply_question_no_fk`
-   FOREIGN KEY (`queNo`)
-   REFERENCES `question` (`queNo`))
+  `rpNo` INT NOT NULL AUTO_INCREMENT,
+  `contents` VARCHAR(2000) NOT NULL,
+  `rpLike` INT NOT NULL DEFAULT '0',
+  `createDate` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `queNo` INT NOT NULL,
+  `userNo` INT NOT NULL,
+  PRIMARY KEY (`rpNo`),
+  INDEX `que_no_idx` (`queNo` ASC) VISIBLE,
+  INDEX `uid_idx` (`userNo` ASC) VISIBLE,
+  CONSTRAINT `reply_user_no_fk`
+    FOREIGN KEY (`userNo`)
+    REFERENCES `user` (`userNo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `reply_question_no_fk`
+    FOREIGN KEY (`queNo`)
+    REFERENCES `question` (`queNo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -66,20 +72,22 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `follow`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `follow` (
- `followNo` INT NOT NULL AUTO_INCREMENT,
- `userNo` INT NOT NULL,
- `followingNo` INT NOT NULL,
- PRIMARY KEY (`followNo`),
- INDEX `uid_idx` (`userNo` ASC) VISIBLE,
- INDEX `follow_no2_fk_idx` (`followingNo` ASC) VISIBLE,
- CONSTRAINT `follow_no_fk`
-   FOREIGN KEY (`userNo`)
-   REFERENCES `user` (`userNo`),
- CONSTRAINT `follow_no2_fk`
-   FOREIGN KEY (`followingNo`)
-   REFERENCES `user` (`userNo`)
-   ON DELETE RESTRICT
-   ON UPDATE RESTRICT)
+  `followNo` INT NOT NULL AUTO_INCREMENT,
+  `userNo` INT NOT NULL,
+  `followingNo` INT NOT NULL,
+  PRIMARY KEY (`followNo`),
+  INDEX `uid_idx` (`userNo` ASC) VISIBLE,
+  INDEX `follow_no2_fk_idx` (`followingNo` ASC) VISIBLE,
+  CONSTRAINT `follow_no_fk`
+    FOREIGN KEY (`userNo`)
+    REFERENCES `user` (`userNo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `follow_no2_fk`
+    FOREIGN KEY (`followingNo`)
+    REFERENCES `user` (`userNo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -88,25 +96,25 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `cart`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cart` (
- `cartNo` INT NOT NULL AUTO_INCREMENT,
- `userNo` INT NOT NULL,
- `queNo` INT NOT NULL,
- PRIMARY KEY (`cartNo`),
- INDEX `uid_idx` (`userNo` ASC) VISIBLE,
- INDEX `que_no_idx` (`queNo` ASC) VISIBLE,
- CONSTRAINT `follow_user_no_fk`
-   FOREIGN KEY (`userNo`)
-   REFERENCES `user` (`userNo`)
-   ON DELETE RESTRICT
-   ON UPDATE RESTRICT,
- CONSTRAINT `follow_que_no_fk`
-   FOREIGN KEY (`queNo`)
-   REFERENCES `question` (`queNo`)
-   ON DELETE RESTRICT
-   ON UPDATE RESTRICT)
+  `cartNo` INT NOT NULL AUTO_INCREMENT,
+  `userNo` INT NOT NULL,
+  `queNo` INT NOT NULL,
+  PRIMARY KEY (`cartNo`),
+  INDEX `uid_idx` (`userNo` ASC) VISIBLE,
+  INDEX `que_no_idx` (`queNo` ASC) VISIBLE,
+  CONSTRAINT `follow_user_no_fk`
+    FOREIGN KEY (`userNo`)
+    REFERENCES `user` (`userNo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `follow_que_no_fk`
+    FOREIGN KEY (`queNo`)
+    REFERENCES `question` (`queNo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
-yarn serve --port 3000
-npm serve -- --port 3000
+
+
 -- -----------------------------------------------------
 -- Table `rplike`
 -- -----------------------------------------------------
@@ -120,11 +128,64 @@ CREATE TABLE IF NOT EXISTS `rplike` (
   CONSTRAINT `rplike_user_no_fk`
     FOREIGN KEY (`userNo`)
     REFERENCES `user` (`userNo`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `rplike_reply_no_fk`
     FOREIGN KEY (`rpNo`)
     REFERENCES `reply` (`rpNo`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `notice`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `notice`(
+  `noticeNo` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(200) NOT NULL,
+  `contents` VARCHAR(2000) NOT NULL,
+  `createDate` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `userNo` INT NOT NULL,
+  PRIMARY KEY (`noticeNo`),
+  INDEX `notice_user_no_fk_idx` (`userNo` ASC) VISIBLE,
+  CONSTRAINT `notice_user_no_fk`
+    FOREIGN KEY (`userNo`)
+    REFERENCES `user` (`userNo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `tag`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tag` (
+  `tagNo` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`tagNo`))
+ENGINE = InnoDB;
+ 
+
+-- -----------------------------------------------------
+-- Table `quetag`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `quetag` (
+  `quetagNo` INT NOT NULL AUTO_INCREMENT,
+  `queNo` INT NOT NULL,
+  `tagNo` INT NOT NULL,
+  PRIMARY KEY (`quetagNo`),
+  INDEX `quetag_queNo_fk_idx` (`queNo` ASC) VISIBLE,
+  INDEX `quetag_tagNo_fk_idx` (`tagNo` ASC) VISIBLE,
+  CONSTRAINT `quetag_queNo_fk`
+    FOREIGN KEY (`queNo`)
+    REFERENCES `question` (`queNo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `quetag_tagNo_fk`
+    FOREIGN KEY (`tagNo`)
+    REFERENCES `tag` (`tagNo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
